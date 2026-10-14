@@ -246,6 +246,7 @@ code {{ background:#f1f5f9; padding:1px 5px; border-radius:4px; font-size:0.82re
   <div class="note">监控节奏在 <code>[monitor]</code>：日度价格巡检 · 周度份额/UE 复盘 · 红灯当日给动作。</div>
 
   <p class="muted" style="margin-top:28px">本地：<code>python3 run.py</code> · 测试：<code>python3 -m unittest discover -s tests -v</code></p>
+  <p class="muted" style="margin-top:12px">© 2026 张文婧 (Anna Zhang) · github.com/annawzhang · MIT · 保留署名</p>
 </div>
 </body>
 </html>
