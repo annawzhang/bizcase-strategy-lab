@@ -5,7 +5,8 @@ from bizcase.market import market_sizing
 from bizcase.compete import compete_matrix, compete_alerts
 from bizcase.unit_econ import unit_economics
 from bizcase.scenario import run_scenarios
-from bizcase.judge import judge_pack
+from bizcase.porter import porter_forces
+from bizcase.monitor import monitor_board
 
 
 class TestBizCase(unittest.TestCase):
@@ -44,15 +45,28 @@ class TestBizCase(unittest.TestCase):
         self.assertEqual(len(sc), 3)
         labels = [s["label"] for s in sc]
         self.assertEqual(labels, ["悲观", "基准", "乐观"])
-        # upside SOM should exceed downside
         down = next(s for s in sc if s["key"] == "downside")
         up = next(s for s in sc if s["key"] == "upside")
         self.assertGreater(up["som"], down["som"])
 
-    def test_judge_pack(self):
-        qs = judge_pack(self.cfg)
-        self.assertGreaterEqual(len(qs), 5)
-        self.assertTrue(all("q" in x and "a" in x and x["a"] for x in qs))
+    def test_porter_five_forces(self):
+        p = porter_forces(self.cfg)
+        self.assertEqual(len(p["forces"]), 5)
+        self.assertTrue(all(1 <= f["intensity"] <= 5 for f in p["forces"]))
+        self.assertTrue(p["hottest"]["label"])
+        self.assertIn("竞争", p["narrative"])
+
+    def test_monitor_board_rag(self):
+        m = monitor_board(self.cfg)
+        self.assertGreaterEqual(len(m["rows"]), 5)
+        self.assertTrue(all(r["status"] in ("红", "黄", "绿") for r in m["rows"]))
+        self.assertEqual(
+            m["summary"]["红"] + m["summary"]["黄"] + m["summary"]["绿"],
+            len(m["rows"]),
+        )
+        # demo case: share below floor → at least one yellow/red + events
+        self.assertTrue(m["events"])
+        self.assertIn("share", [r["key"] for r in m["rows"]])
 
 
 if __name__ == "__main__":

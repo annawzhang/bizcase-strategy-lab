@@ -10,7 +10,8 @@ from bizcase import (
     compete_alerts,
     unit_economics,
     run_scenarios,
-    judge_pack,
+    porter_forces,
+    monitor_board,
 )
 from bizcase.report import render
 
@@ -24,9 +25,10 @@ def main() -> None:
     alerts = compete_alerts(cfg)
     unit = unit_economics(cfg)
     scenarios = run_scenarios(cfg)
-    judges = judge_pack(cfg)
+    porter = porter_forces(cfg)
+    monitor = monitor_board(cfg)
 
-    html = render(cfg, market, comps, alerts, unit, scenarios, judges)
+    html = render(cfg, market, comps, alerts, unit, scenarios, porter, monitor)
     out = ROOT / "docs" / "index.html"
     out.parent.mkdir(exist_ok=True)
     out.write_text(html, encoding="utf-8")
@@ -34,7 +36,8 @@ def main() -> None:
     print(cfg["meta"]["title"])
     print(f"TAM={market['tam']/1e8:.1f}亿  SAM={market['sam']/1e8:.2f}亿  SOM={market['som']/1e8:.2f}亿")
     print(f"UE healthy={unit['healthy']} payback={unit['payback_months']}")
-    print(f"alerts={len(alerts)} scenarios={len(scenarios)} judge_q={len(judges)}")
+    print(f"porter avg={porter['avg_intensity']:.1f} hottest={porter['hottest']['label']}")
+    print(f"monitor 红={monitor['summary']['红']} 黄={monitor['summary']['黄']} 绿={monitor['summary']['绿']} events={len(monitor['events'])}")
     print(f"报告 → {out}")
 
 

@@ -17,7 +17,8 @@ def _pay(m: float | None) -> str:
     return "—" if m is None else f"{m:.1f}"
 
 
-def render(cfg: dict, market: dict, comps: list, alerts: list, unit: dict, scenarios: list, judges: list) -> str:
+def render(cfg: dict, market: dict, comps: list, alerts: list, unit: dict,
+           scenarios: list, porter: dict, monitor: dict) -> str:
     meta = cfg["meta"]
     ass = market["assumptions"]
     comp_rows = "".join(
@@ -43,11 +44,32 @@ def render(cfg: dict, market: dict, comps: list, alerts: list, unit: dict, scena
         f"<td>{'✓' if s['unit']['healthy'] else '✗'}</td></tr>"
         for s in scenarios
     )
-    judge_html = "".join(
-        f"<div class='qa'><div class='q'>Q：{escape(j['q'])}</div>"
-        f"<div class='a'>{escape(j['a'])}</div></div>"
-        for j in judges
+    porter_rows = "".join(
+        f"<tr><td>{escape(f['label'])}</td>"
+        f"<td class='num'>{f['intensity']}/5 · {escape(f['level'])}</td>"
+        f"<td class='bar'>{f['bar']}</td>"
+        f"<td>{escape(f['drivers'])}</td>"
+        f"<td>{escape(f['implication'])}</td></tr>"
+        for f in porter["forces"]
     )
+    mon_rows = "".join(
+        f"<tr><td><span class='dot {r['status']}'></span>{escape(r['name'])}</td>"
+        f"<td class='num'>{escape(r['actual_fmt'])}</td>"
+        f"<td class='num'>{escape(r['target_fmt'])}</td>"
+        f"<td class='num'>{escape(r['wow_fmt'])}</td>"
+        f"<td>{escape(r['status'])}</td>"
+        f"<td>{escape(r['cadence'])}</td>"
+        f"<td>{escape(r['owner'])}</td>"
+        f"<td>{escape(r['action'])}</td></tr>"
+        for r in monitor["rows"]
+    )
+    mon_events = "".join(
+        f"<div class='alert {e['level'].lower()}'><b>{e['level']} · {escape(e['title'])}</b>"
+        f"<div class='muted'>{escape(e['source'])}</div>"
+        f"<div>{escape(e['detail'])}</div><div class='act'>动作：{escape(e['action'])}</div></div>"
+        for e in monitor["events"]
+    ) or "<p class='muted'>暂无监控事件</p>"
+    sm = monitor["summary"]
     healthy = "健康" if unit["healthy"] else "需优化"
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -72,13 +94,14 @@ h2 {{ font-size:1.08rem; margin:28px 0 10px; border-left:4px solid var(--accent)
 table {{ width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--border); border-radius:12px; overflow:hidden; font-size:0.84rem; }}
 th, td {{ padding:8px 10px; border-bottom:1px solid var(--border); text-align:left; vertical-align:top; }}
 th {{ color:var(--muted); font-weight:600; }} td.num, th.num {{ text-align:right; font-variant-numeric:tabular-nums; }}
+td.bar {{ letter-spacing:1px; color:var(--accent); white-space:nowrap; }}
 .note {{ background:#f0fdfa; border:1px solid #99f6e4; border-radius:10px; padding:12px 14px; font-size:0.86rem; margin-top:10px; }}
 .alert {{ background:#fff; border:1px solid var(--border); border-left:4px solid #94a3b8; border-radius:10px; padding:10px 12px; margin:8px 0; font-size:0.86rem; }}
 .alert.p1 {{ border-left-color:#b91c1c; background:#fef2f2; }}
 .alert.p2 {{ border-left-color:#b45309; background:#fff7ed; }}
 .act {{ color:var(--muted); margin-top:4px; }}
-.qa {{ background:#fff; border:1px solid var(--border); border-radius:12px; padding:12px 14px; margin:8px 0; }}
-.q {{ font-weight:600; margin-bottom:6px; }} .a {{ color:#334155; font-size:0.88rem; }}
+.dot {{ display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; vertical-align:middle; background:#94a3b8; }}
+.dot.绿 {{ background:#16a34a; }} .dot.黄 {{ background:#d97706; }} .dot.红 {{ background:#dc2626; }}
 code {{ background:#f1f5f9; padding:1px 5px; border-radius:4px; font-size:0.82rem; }}
 </style>
 </head>
@@ -143,8 +166,28 @@ code {{ background:#f1f5f9; padding:1px 5px; border-radius:4px; font-size:0.82re
   </table>
   <div class="note">悲观若回本失败：优先收缩可服务地理与补贴，而不是加码获客——这是商赛里常见的「纪律」答法。</div>
 
-  <h2>5. 评委追问包</h2>
-  {judge_html}
+  <h2>5. 波特五力 · 苏州社区零售</h2>
+  <p class="muted">{escape(porter['narrative'])}</p>
+  <table>
+    <thead><tr><th>力</th><th class="num">强度</th><th>刻度</th><th>驱动因素</th><th>对我方含义</th></tr></thead>
+    <tbody>{porter_rows}</tbody>
+  </table>
+  <div class="note">五力分数在 <code>[porter.*]</code>；改强度与驱动因素后重跑报告，便于评委追问「行业结构」时有据可答。</div>
+
+  <h2>6. 商业监控 · KPI 看板与事件流</h2>
+  <p class="muted">{escape(monitor['narrative'])}</p>
+  <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="card"><div class="lbl">绿灯</div><div class="val" style="color:#16a34a">{sm['绿']}</div></div>
+    <div class="card"><div class="lbl">黄灯</div><div class="val" style="color:#d97706">{sm['黄']}</div></div>
+    <div class="card"><div class="lbl">红灯</div><div class="val" style="color:#dc2626">{sm['红']}</div></div>
+  </div>
+  <table>
+    <thead><tr><th>指标</th><th class="num">实际</th><th class="num">目标</th><th class="num">周变化</th><th>状态</th><th>节奏</th><th>负责人</th><th>纠偏动作</th></tr></thead>
+    <tbody>{mon_rows}</tbody>
+  </table>
+  <h3 style="font-size:0.95rem;margin:16px 0 8px">事件流（竞品告警 ∪ KPI 灯）</h3>
+  {mon_events}
+  <div class="note">监控节奏写在 <code>[monitor]</code>：日度价格巡检 · 周度份额/UE 复盘 · 红灯当日给动作。份额/价格/NPS/CAC 等从竞品与单位经济实时回填。</div>
 
   <p class="muted" style="margin-top:28px">本地：<code>python3 run.py</code> · 测试：<code>python3 -m unittest discover -s tests -v</code></p>
 </div>

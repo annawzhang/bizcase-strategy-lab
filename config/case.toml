@@ -103,3 +103,119 @@ demand_mult = 0.75
 cac_mult = 1.25
 margin_delta = -0.03
 share_y3 = 0.04
+
+# ---------- 5. 波特五力（1–5，越高压力越大） ----------
+[porter.rivalry]
+intensity = 4
+drivers = "邻里优选 / 大卖场 / 便利联盟同城多点布局，促销频繁，份额分散"
+implication = "差异化走新鲜度与私域，核心 SKU 跟价、非核心守毛利"
+
+[porter.new_entrants]
+intensity = 3
+drivers = "社区团购/前置仓进入门槛中等；履约站与地推仍需资本与密度"
+implication = "用可服务地理密度与会员复购抬高进入成本"
+
+[porter.substitutes]
+intensity = 4
+drivers = "大卖场到店、外卖即时零售、超市 Mini 店均可替代「社区订购」"
+implication = "强调 2 小时履约与生鲜品质，弱化纯比价心智"
+
+[porter.buyer_power]
+intensity = 4
+drivers = "家庭用户切换成本低，价格敏感，促销对比工具多"
+implication = "会员日与组合装提高粘性，避免无差别补贴"
+
+[porter.supplier_power]
+intensity = 3
+drivers = "生鲜产地与区域经销商集中度中等；SKU 越多议价越难"
+implication = "头部 SKU 集采压价，长尾用联营降库存风险"
+
+# ---------- 6. 商业监控 ----------
+[monitor]
+as_of = "2026-W41"
+rhythm = "日度：价格/促销巡检；周度：份额·UE·NPS 复盘；红灯当日给动作"
+default_cadence = "周"
+
+[[monitor.kpis]]
+key = "share"
+name = "核心区份额"
+kind = "pct"
+target = 0.05
+wow_delta = -0.003
+warn_below = 0.05
+crit_below = 0.035
+owner = "增长"
+cadence = "周"
+action = "加密履约站 + 老客券，不做全网低价"
+
+[[monitor.kpis]]
+key = "price_index"
+name = "我方价格指数"
+kind = "index"
+target = 100
+wow_delta = 1.0
+warn_above = 105
+crit_above = 110
+owner = "商品"
+cadence = "日"
+action = "核心 SKU 跟价观察；非核心组合装守毛利"
+
+[[monitor.kpis]]
+key = "nps"
+name = "NPS"
+kind = "index"
+target = 50
+wow_delta = -1.0
+warn_below = 45
+crit_below = 40
+owner = "体验"
+cadence = "周"
+action = "拆差评 Top3，对齐 VOC 复盘"
+
+[[monitor.kpis]]
+key = "gross_margin"
+name = "毛利率"
+kind = "pct"
+target = 0.28
+wow_delta = -0.005
+warn_below = 0.25
+crit_below = 0.22
+owner = "商品"
+cadence = "周"
+action = "砍低效促销，抬高高毛利组合占比"
+
+[[monitor.kpis]]
+key = "cac"
+name = "CAC"
+kind = "yuan"
+target = 20
+wow_delta = 2.0
+warn_above = 25
+crit_above = 35
+owner = "增长"
+cadence = "周"
+action = "停无效渠道，预算转向复购与会员"
+
+[[monitor.kpis]]
+key = "contribution"
+name = "单均贡献"
+kind = "yuan"
+target = 8
+wow_delta = -0.4
+warn_below = 6
+crit_below = 3
+owner = "经营"
+cadence = "周"
+action = "先修履约成本与损耗，再谈放量"
+
+[[monitor.kpis]]
+key = "payback_months"
+name = "回本月数"
+kind = "months"
+target = 6
+wow_delta = 0.3
+warn_above = 12
+crit_above = 18
+owner = "经营"
+cadence = "月"
+action = "超 cap 则收缩地理与补贴"
