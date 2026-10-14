@@ -7,7 +7,88 @@ city = "苏州"
 category = "社区零售 / 生鲜日用"
 brand = "苏里优选"
 year = 2026
-disclaimer = "虚构案例，用于商赛方法工具化演示"
+disclaimer = "演示案例数据虚构；商赛简介与贡献对齐公开赛制与个人履历"
+
+# ---------- 0. 商赛简介 · 架构映射 · 贡献 ----------
+# 依据全国高校商业精英挑战赛品牌策划赛道公开细则（SOP）整理，非官方文档全文。
+[competition]
+series = "全国高校商业精英挑战赛"
+track = "品牌策划赛道"
+organizer = "中国贸促会商业行业委员会等"
+mode = "企业出题—院校答题—行业判卷；真实品牌须企业书面授权"
+team = "3–5 名选手 + 1–2 名指导教师"
+award = "全国三等奖"
+real_case = "宋锦品牌（真实参赛）"
+demo_case = "苏里优选 · 苏州社区零售（本仓虚构演示）"
+role = "数据分析与量化建模"
+platform = "https://ssyth.cubec.org.cn/"
+note = "官方策划书要素：现状分析 → 定位与核心价值 → 元素设计 → 推广传播 → 资产保护与风险 → 财务预算。本仓把可计算部分工具化，不替代完整策划书 PDF。"
+
+[[competition.sop_stages]]
+name = "知识赛"
+desc = "品牌基础理论在线测评，满 100、≥60 分获组队资格"
+
+[[competition.sop_stages]]
+name = "校赛"
+desc = "院校自组织选拔；推选比例有上限后晋级"
+
+[[competition.sop_stages]]
+name = "省赛 / 全国预选赛"
+desc = "评审策划书（预选）或策划书 + 答辩（省赛）"
+
+[[competition.sop_stages]]
+name = "全国总决赛"
+desc = "策划书 + 视频展示 + 实时答辩；评全国一/二/三等奖"
+
+[[competition.sop_stages]]
+name = "精英赛 / 全球赛"
+desc = "优秀队晋级路演或全球青年商业挑战赛选拔"
+
+[[competition.plan_mapping]]
+chapter = "品牌现状分析（环境 / 竞品）"
+lab = "市场测算 TAM/SAM/SOM · 波特五力 · 竞品雷达"
+score_hint = "书面案「现状分析准确性」"
+
+[[competition.plan_mapping]]
+chapter = "定位与目标市场"
+lab = "可服务地理 × 三年份额 SOM · 情景推演"
+score_hint = "书面案「定位正确性」"
+
+[[competition.plan_mapping]]
+chapter = "推广传播可行性"
+lab = "竞品促销告警 · 商业监控（CAC / NPS / 份额）"
+score_hint = "书面案「推广与传播可行性」"
+
+[[competition.plan_mapping]]
+chapter = "财务预算与风险"
+lab = "单位经济 · 回本月数 · 悲观情景纪律"
+score_hint = "书面案「财务预算合理性」+ 风险管理"
+
+[[competition.scoring]]
+part = "书面策划案"
+weight = "60 分"
+items = "现状分析 / 定位 / 元素创意 / 推广可行性 / 资产与风险 / 财务预算（各约 10 分）"
+
+[[competition.scoring]]
+part = "展示与答辩"
+weight = "40 分"
+items = "视频 / 现场陈述逻辑、数据可信度、临场问答（总决赛）"
+
+[[competition.contributions]]
+title = "行业结构量化"
+detail = "PEST + 波特五力：把宏观与五力强度落到可辩护的驱动因素，而不是口号式「竞争激烈」"
+
+[[competition.contributions]]
+title = "传播路径双模型"
+detail = "SPSS：LDA 主题挖掘 + SEM 路径，量化品牌传播关键节点与影响系数"
+
+[[competition.contributions]]
+title = "策划书可计算章节"
+detail = "负责现状分析 / 竞争结构 / 财务与风险相关测算口径，支撑全国三等奖（宋锦）书面案与答辩数据"
+
+[[competition.contributions]]
+title = "本仓开源沉淀"
+detail = "把可复用的测算、五力、监控做成标准库工具；演示行业换苏州零售，与真实 BP 隔离"
 
 # ---------- 1. 市场测算假设 ----------
 [market]

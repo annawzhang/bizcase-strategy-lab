@@ -12,8 +12,9 @@ body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Mic
 .wrap { max-width:980px; margin:0 auto; padding:28px 20px 64px; }
 h1 { font-size:1.55rem; margin:6px 0; }
 h2 { font-size:1.08rem; margin:28px 0 10px; border-left:4px solid var(--accent); padding-left:10px; }
+h3 { font-size:0.95rem; margin:16px 0 8px; }
 .muted { color:var(--muted); font-size:0.86rem; }
-.badge { display:inline-block; background:#fef3c7; color:#92400e; border-radius:999px; padding:2px 10px; font-size:0.75rem; }
+.badge { display:inline-block; background:#fef3c7; color:#92400e; border-radius:999px; padding:2px 10px; font-size:0.75rem; margin-right:6px; }
 .grid { display:grid; gap:12px; grid-template-columns:repeat(4,1fr); margin:14px 0; }
 @media (max-width:800px) { .grid { grid-template-columns:1fr 1fr; } }
 .card { background:#fff; border:1px solid var(--border); border-radius:12px; padding:14px; }
@@ -27,17 +28,53 @@ td.bar { letter-spacing:1px; color:var(--accent); white-space:nowrap; }
 .alert.p1 { border-left-color:#b91c1c; background:#fef2f2; }
 .alert.p2 { border-left-color:#b45309; background:#fff7ed; }
 .act { color:var(--muted); margin-top:4px; }
+.qa { background:#fff; border:1px solid var(--border); border-radius:12px; padding:12px 14px; margin:8px 0; }
+.q { font-weight:600; margin-bottom:6px; } .a { color:#334155; font-size:0.88rem; }
 .dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; vertical-align:middle; background:#94a3b8; }
 .dot.绿 { background:#16a34a; } .dot.黄 { background:#d97706; } .dot.红 { background:#dc2626; }
+.flow { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:10px 0 14px; font-size:0.84rem; }
+.flow span { background:#fff; border:1px solid var(--border); border-radius:8px; padding:6px 10px; }
+.flow .arrow { border:none; background:transparent; color:var(--muted); padding:0; }
 code { background:#f1f5f9; padding:1px 5px; border-radius:4px; font-size:0.82rem; }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <span class="badge">虚构商赛案例 · 苏州零售消费</span>
+  <span class="badge">方法对齐 · 全国高校商业精英挑战赛</span>
+  <span class="badge">演示数据 · 苏州零售虚构</span>
   <h1>苏里优选 · 苏州社区零售扩张案</h1>
   <p class="muted">苏州 · 社区零售 / 生鲜日用 · 品牌 苏里优选 · 2026<br/>
-  虚构案例，用于商赛方法工具化演示</p>
+  演示案例数据虚构；商赛简介与贡献对齐公开赛制与个人履历</p>
+
+  <h2>0. 商赛简介 · 架构与贡献</h2>
+  <p>全国高校商业精英挑战赛由中国贸促会商业行业委员会等牵头主办，本仓对齐「品牌策划赛道」方法：企业出题—院校答题—行业判卷；真实品牌须企业书面授权。团队通常 3–5 名选手 + 1–2 名指导教师。</p>
+  <p class="muted">真实履历：宋锦品牌（真实参赛） · 全国三等奖 · 角色 数据分析与量化建模<br/>
+  本仓演示：苏里优选 · 苏州社区零售（本仓虚构演示） · 平台 https://ssyth.cubec.org.cn/</p>
+
+  <h3>SOP 赛程（品牌策划赛道）</h3>
+  <div class="flow">
+    <span>知识赛</span><span class='arrow'>→</span><span>校赛</span><span class='arrow'>→</span><span>省赛 / 全国预选赛</span><span class='arrow'>→</span><span>全国总决赛</span><span class='arrow'>→</span><span>精英赛 / 全球赛</span>
+  </div>
+  <table>
+    <thead><tr><th>阶段</th><th>要求（公开细则摘要）</th></tr></thead>
+    <tbody><tr><td>知识赛</td><td>品牌基础理论在线测评，满 100、≥60 分获组队资格</td></tr><tr><td>校赛</td><td>院校自组织选拔；推选比例有上限后晋级</td></tr><tr><td>省赛 / 全国预选赛</td><td>评审策划书（预选）或策划书 + 答辩（省赛）</td></tr><tr><td>全国总决赛</td><td>策划书 + 视频展示 + 实时答辩；评全国一/二/三等奖</td></tr><tr><td>精英赛 / 全球赛</td><td>优秀队晋级路演或全球青年商业挑战赛选拔</td></tr></tbody>
+  </table>
+
+  <h3>策划书章节 → 本仓模块（架构映射）</h3>
+  <table>
+    <thead><tr><th>官方策划书要素</th><th>本仓对应模块</th><th>评分挂钩</th></tr></thead>
+    <tbody><tr><td>品牌现状分析（环境 / 竞品）</td><td>市场测算 TAM/SAM/SOM · 波特五力 · 竞品雷达</td><td>书面案「现状分析准确性」</td></tr><tr><td>定位与目标市场</td><td>可服务地理 × 三年份额 SOM · 情景推演</td><td>书面案「定位正确性」</td></tr><tr><td>推广传播可行性</td><td>竞品促销告警 · 商业监控（CAC / NPS / 份额）</td><td>书面案「推广与传播可行性」</td></tr><tr><td>财务预算与风险</td><td>单位经济 · 回本月数 · 悲观情景纪律</td><td>书面案「财务预算合理性」+ 风险管理</td></tr></tbody>
+  </table>
+
+  <h3>评分结构（摘要）</h3>
+  <table>
+    <thead><tr><th>部分</th><th class="num">权重</th><th>关注点</th></tr></thead>
+    <tbody><tr><td>书面策划案</td><td class='num'>60 分</td><td>现状分析 / 定位 / 元素创意 / 推广可行性 / 资产与风险 / 财务预算（各约 10 分）</td></tr><tr><td>展示与答辩</td><td class='num'>40 分</td><td>视频 / 现场陈述逻辑、数据可信度、临场问答（总决赛）</td></tr></tbody>
+  </table>
+
+  <h3>个人贡献</h3>
+  <div class='qa'><div class='q'>行业结构量化</div><div class='a'>PEST + 波特五力：把宏观与五力强度落到可辩护的驱动因素，而不是口号式「竞争激烈」</div></div><div class='qa'><div class='q'>传播路径双模型</div><div class='a'>SPSS：LDA 主题挖掘 + SEM 路径，量化品牌传播关键节点与影响系数</div></div><div class='qa'><div class='q'>策划书可计算章节</div><div class='a'>负责现状分析 / 竞争结构 / 财务与风险相关测算口径，支撑全国三等奖（宋锦）书面案与答辩数据</div></div><div class='qa'><div class='q'>本仓开源沉淀</div><div class='a'>把可复用的测算、五力、监控做成标准库工具；演示行业换苏州零售，与真实 BP 隔离</div></div>
+  <div class="note">官方策划书要素：现状分析 → 定位与核心价值 → 元素设计 → 推广传播 → 资产保护与风险 → 财务预算。本仓把可计算部分工具化，不替代完整策划书 PDF。</div>
 
   <div class="grid">
     <div class="card"><div class="lbl">TAM</div><div class="val">1071.69 亿</div><div class="muted">家庭日用总支出/年</div></div>
@@ -60,7 +97,7 @@ code { background:#f1f5f9; padding:1px 5px; border-radius:4px; font-size:0.82rem
       <tr><td>三年目标份额</td><td class="num">8%</td></tr>
     </tbody>
   </table>
-  <div class="note">每一层都在 <code>config/case.toml</code>，改渗透率或份额即可重算——商赛里「假设可审计」比拍一个总数更重要。</div>
+  <div class="note">每一层都在 <code>config/case.toml</code>，改渗透率或份额即可重算——「假设可审计」比拍一个总数更重要。</div>
 
   <h2>2. 竞品雷达 · 今日告警</h2>
   <table>
@@ -91,7 +128,7 @@ code { background:#f1f5f9; padding:1px 5px; border-radius:4px; font-size:0.82rem
     <thead><tr><th>情景</th><th class="num">SOM</th><th class="num">三年份额</th><th class="num">AOV</th><th class="num">毛利</th><th class="num">CAC</th><th class="num">贡献</th><th class="num">回本月</th><th>健康</th></tr></thead>
     <tbody><tr><td>悲观</td><td class='num'>0.50 亿</td><td class='num'>4%</td><td class='num'>51</td><td class='num'>25%</td><td class='num'>28</td><td class='num'>1.7</td><td class='num'>5.1</td><td>✓</td></tr><tr><td>基准</td><td class='num'>1.01 亿</td><td class='num'>8%</td><td class='num'>68</td><td class='num'>28%</td><td class='num'>22</td><td class='num'>7.5</td><td class='num'>0.9</td><td>✓</td></tr><tr><td>乐观</td><td class='num'>1.51 亿</td><td class='num'>12%</td><td class='num'>85</td><td class='num'>30%</td><td class='num'>19</td><td class='num'>13.5</td><td class='num'>0.4</td><td>✓</td></tr></tbody>
   </table>
-  <div class="note">悲观若回本失败：优先收缩可服务地理与补贴，而不是加码获客——这是商赛里常见的「纪律」答法。</div>
+  <div class="note">悲观若回本失败：优先收缩可服务地理与补贴，而不是加码获客。</div>
 
   <h2>5. 波特五力 · 苏州社区零售</h2>
   <p class="muted">五力均强约 3.6/5；当前最紧的是「现有竞争者竞争程度」（强）。苏州社区零售里，宜用履约密度与私域复购对冲价格战，而不是全面降价。</p>
@@ -99,7 +136,7 @@ code { background:#f1f5f9; padding:1px 5px; border-radius:4px; font-size:0.82rem
     <thead><tr><th>力</th><th class="num">强度</th><th>刻度</th><th>驱动因素</th><th>对我方含义</th></tr></thead>
     <tbody><tr><td>现有竞争者竞争程度</td><td class='num'>4/5 · 强</td><td class='bar'>●●●●○</td><td>邻里优选 / 大卖场 / 便利联盟同城多点布局，促销频繁，份额分散</td><td>差异化走新鲜度与私域，核心 SKU 跟价、非核心守毛利</td></tr><tr><td>新进入者威胁</td><td class='num'>3/5 · 中</td><td class='bar'>●●●○○</td><td>社区团购/前置仓进入门槛中等；履约站与地推仍需资本与密度</td><td>用可服务地理密度与会员复购抬高进入成本</td></tr><tr><td>替代品威胁</td><td class='num'>4/5 · 强</td><td class='bar'>●●●●○</td><td>大卖场到店、外卖即时零售、超市 Mini 店均可替代「社区订购」</td><td>强调 2 小时履约与生鲜品质，弱化纯比价心智</td></tr><tr><td>买方议价能力</td><td class='num'>4/5 · 强</td><td class='bar'>●●●●○</td><td>家庭用户切换成本低，价格敏感，促销对比工具多</td><td>会员日与组合装提高粘性，避免无差别补贴</td></tr><tr><td>供方议价能力</td><td class='num'>3/5 · 中</td><td class='bar'>●●●○○</td><td>生鲜产地与区域经销商集中度中等；SKU 越多议价越难</td><td>头部 SKU 集采压价，长尾用联营降库存风险</td></tr></tbody>
   </table>
-  <div class="note">五力分数在 <code>[porter.*]</code>；改强度与驱动因素后重跑报告，便于评委追问「行业结构」时有据可答。</div>
+  <div class="note">五力在 <code>[porter.*]</code>；对应策划书「现状分析 / 竞争结构」，驱动因素写清才能辩护强度分。</div>
 
   <h2>6. 商业监控 · KPI 看板与事件流</h2>
   <p class="muted">监控期 2026-W41：绿 6 / 黄 1 / 红 0；事件 4 条。节奏：日度：价格/促销巡检；周度：份额·UE·NPS 复盘；红灯当日给动作。</p>
@@ -112,9 +149,9 @@ code { background:#f1f5f9; padding:1px 5px; border-radius:4px; font-size:0.82rem
     <thead><tr><th>指标</th><th class="num">实际</th><th class="num">目标</th><th class="num">周变化</th><th>状态</th><th>节奏</th><th>负责人</th><th>纠偏动作</th></tr></thead>
     <tbody><tr><td><span class='dot 黄'></span>核心区份额</td><td class='num'>4.0%</td><td class='num'>5.0%</td><td class='num'>-0.3pp</td><td>黄</td><td>周</td><td>增长</td><td>加密履约站 + 老客券，不做全网低价</td></tr><tr><td><span class='dot 绿'></span>我方价格指数</td><td class='num'>103</td><td class='num'>100</td><td class='num'>+1.0</td><td>绿</td><td>日</td><td>商品</td><td>核心 SKU 跟价观察；非核心组合装守毛利</td></tr><tr><td><span class='dot 绿'></span>NPS</td><td class='num'>47</td><td class='num'>50</td><td class='num'>-1.0</td><td>绿</td><td>周</td><td>体验</td><td>拆差评 Top3，对齐 VOC 复盘</td></tr><tr><td><span class='dot 绿'></span>毛利率</td><td class='num'>28.0%</td><td class='num'>28.0%</td><td class='num'>-0.5pp</td><td>绿</td><td>周</td><td>商品</td><td>砍低效促销，抬高高毛利组合占比</td></tr><tr><td><span class='dot 绿'></span>CAC</td><td class='num'>22.0 元</td><td class='num'>20.0 元</td><td class='num'>+2.0</td><td>绿</td><td>周</td><td>增长</td><td>停无效渠道，预算转向复购与会员</td></tr><tr><td><span class='dot 绿'></span>单均贡献</td><td class='num'>7.5 元</td><td class='num'>8.0 元</td><td class='num'>-0.4</td><td>绿</td><td>周</td><td>经营</td><td>先修履约成本与损耗，再谈放量</td></tr><tr><td><span class='dot 绿'></span>回本月数</td><td class='num'>0.9 月</td><td class='num'>6.0 月</td><td class='num'>+0.3</td><td>绿</td><td>月</td><td>经营</td><td>超 cap 则收缩地理与补贴</td></tr></tbody>
   </table>
-  <h3 style="font-size:0.95rem;margin:16px 0 8px">事件流（竞品告警 ∪ KPI 灯）</h3>
+  <h3>事件流（竞品告警 ∪ KPI 灯）</h3>
   <div class='alert p1'><b>P1 · 我方份额偏低</b><div class='muted'>竞品雷达</div><div>当前份额 4% &lt; 地板 5%，优先补密度与复购。</div><div class='act'>动作：加密履约站 + 老客券，不做全网低价战</div></div><div class='alert p1'><b>P1 · 城南大卖场 价格显著更低</b><div class='muted'>竞品雷达</div><div>价格指数 92 vs 我方 103（低 11 点）</div><div class='act'>动作：核心 SKU 跟价观察 2 周；非核心用组合装守毛利</div></div><div class='alert p2'><b>P2 · 邻里优选 促销强度偏高</b><div class='muted'>竞品雷达</div><div>促销强度 35%</div><div class='act'>动作：避免全面跟促；用会员日精准投放</div></div><div class='alert p2'><b>P2 · KPI 黄灯 · 核心区份额</b><div class='muted'>KPI 看板</div><div>实际 4.0% vs 目标 5.0%（周变化 -0.3pp）</div><div class='act'>动作：加密履约站 + 老客券，不做全网低价</div></div>
-  <div class="note">监控节奏写在 <code>[monitor]</code>：日度价格巡检 · 周度份额/UE 复盘 · 红灯当日给动作。份额/价格/NPS/CAC 等从竞品与单位经济实时回填。</div>
+  <div class="note">监控节奏在 <code>[monitor]</code>：日度价格巡检 · 周度份额/UE 复盘 · 红灯当日给动作。</div>
 
   <p class="muted" style="margin-top:28px">本地：<code>python3 run.py</code> · 测试：<code>python3 -m unittest discover -s tests -v</code></p>
 </div>

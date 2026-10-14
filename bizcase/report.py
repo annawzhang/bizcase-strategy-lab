@@ -18,7 +18,7 @@ def _pay(m: float | None) -> str:
 
 
 def render(cfg: dict, market: dict, comps: list, alerts: list, unit: dict,
-           scenarios: list, porter: dict, monitor: dict) -> str:
+           scenarios: list, porter: dict, monitor: dict, comp_brief: dict) -> str:
     meta = cfg["meta"]
     ass = market["assumptions"]
     comp_rows = "".join(
@@ -69,6 +69,25 @@ def render(cfg: dict, market: dict, comps: list, alerts: list, unit: dict,
         f"<div>{escape(e['detail'])}</div><div class='act'>动作：{escape(e['action'])}</div></div>"
         for e in monitor["events"]
     ) or "<p class='muted'>暂无监控事件</p>"
+    stage_rows = "".join(
+        f"<tr><td>{escape(s['name'])}</td><td>{escape(s['desc'])}</td></tr>"
+        for s in comp_brief["stages"]
+    )
+    map_rows = "".join(
+        f"<tr><td>{escape(m['chapter'])}</td><td>{escape(m['lab'])}</td>"
+        f"<td>{escape(m.get('score_hint', ''))}</td></tr>"
+        for m in comp_brief["plan_mapping"]
+    )
+    score_rows = "".join(
+        f"<tr><td>{escape(s['part'])}</td><td class='num'>{escape(s['weight'])}</td>"
+        f"<td>{escape(s['items'])}</td></tr>"
+        for s in comp_brief["scoring"]
+    )
+    contrib_html = "".join(
+        f"<div class='qa'><div class='q'>{escape(x['title'])}</div>"
+        f"<div class='a'>{escape(x['detail'])}</div></div>"
+        for x in comp_brief["contributions"]
+    )
     sm = monitor["summary"]
     healthy = "健康" if unit["healthy"] else "需优化"
     return f"""<!DOCTYPE html>
@@ -85,8 +104,9 @@ body {{ margin:0; font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Mi
 .wrap {{ max-width:980px; margin:0 auto; padding:28px 20px 64px; }}
 h1 {{ font-size:1.55rem; margin:6px 0; }}
 h2 {{ font-size:1.08rem; margin:28px 0 10px; border-left:4px solid var(--accent); padding-left:10px; }}
+h3 {{ font-size:0.95rem; margin:16px 0 8px; }}
 .muted {{ color:var(--muted); font-size:0.86rem; }}
-.badge {{ display:inline-block; background:#fef3c7; color:#92400e; border-radius:999px; padding:2px 10px; font-size:0.75rem; }}
+.badge {{ display:inline-block; background:#fef3c7; color:#92400e; border-radius:999px; padding:2px 10px; font-size:0.75rem; margin-right:6px; }}
 .grid {{ display:grid; gap:12px; grid-template-columns:repeat(4,1fr); margin:14px 0; }}
 @media (max-width:800px) {{ .grid {{ grid-template-columns:1fr 1fr; }} }}
 .card {{ background:#fff; border:1px solid var(--border); border-radius:12px; padding:14px; }}
@@ -100,17 +120,53 @@ td.bar {{ letter-spacing:1px; color:var(--accent); white-space:nowrap; }}
 .alert.p1 {{ border-left-color:#b91c1c; background:#fef2f2; }}
 .alert.p2 {{ border-left-color:#b45309; background:#fff7ed; }}
 .act {{ color:var(--muted); margin-top:4px; }}
+.qa {{ background:#fff; border:1px solid var(--border); border-radius:12px; padding:12px 14px; margin:8px 0; }}
+.q {{ font-weight:600; margin-bottom:6px; }} .a {{ color:#334155; font-size:0.88rem; }}
 .dot {{ display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; vertical-align:middle; background:#94a3b8; }}
 .dot.绿 {{ background:#16a34a; }} .dot.黄 {{ background:#d97706; }} .dot.红 {{ background:#dc2626; }}
+.flow {{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:10px 0 14px; font-size:0.84rem; }}
+.flow span {{ background:#fff; border:1px solid var(--border); border-radius:8px; padding:6px 10px; }}
+.flow .arrow {{ border:none; background:transparent; color:var(--muted); padding:0; }}
 code {{ background:#f1f5f9; padding:1px 5px; border-radius:4px; font-size:0.82rem; }}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <span class="badge">虚构商赛案例 · 苏州零售消费</span>
+  <span class="badge">方法对齐 · 全国高校商业精英挑战赛</span>
+  <span class="badge">演示数据 · 苏州零售虚构</span>
   <h1>{escape(meta['title'])}</h1>
   <p class="muted">{escape(meta['city'])} · {escape(meta['category'])} · 品牌 {escape(meta['brand'])} · {meta['year']}<br/>
   {escape(meta['disclaimer'])}</p>
+
+  <h2>0. 商赛简介 · 架构与贡献</h2>
+  <p>{escape(comp_brief['intro'])}</p>
+  <p class="muted">真实履历：{escape(comp_brief['real_case'])} · {escape(comp_brief['award'])} · 角色 {escape(comp_brief['role'])}<br/>
+  本仓演示：{escape(comp_brief['demo_case'])} · 平台 {escape(comp_brief['platform'])}</p>
+
+  <h3>SOP 赛程（品牌策划赛道）</h3>
+  <div class="flow">
+    {"<span class='arrow'>→</span>".join(f"<span>{escape(s['name'])}</span>" for s in comp_brief['stages'])}
+  </div>
+  <table>
+    <thead><tr><th>阶段</th><th>要求（公开细则摘要）</th></tr></thead>
+    <tbody>{stage_rows}</tbody>
+  </table>
+
+  <h3>策划书章节 → 本仓模块（架构映射）</h3>
+  <table>
+    <thead><tr><th>官方策划书要素</th><th>本仓对应模块</th><th>评分挂钩</th></tr></thead>
+    <tbody>{map_rows}</tbody>
+  </table>
+
+  <h3>评分结构（摘要）</h3>
+  <table>
+    <thead><tr><th>部分</th><th class="num">权重</th><th>关注点</th></tr></thead>
+    <tbody>{score_rows}</tbody>
+  </table>
+
+  <h3>个人贡献</h3>
+  {contrib_html}
+  <div class="note">{escape(comp_brief['note'])}</div>
 
   <div class="grid">
     <div class="card"><div class="lbl">TAM</div><div class="val">{_yi(market['tam'])}</div><div class="muted">家庭日用总支出/年</div></div>
@@ -133,7 +189,7 @@ code {{ background:#f1f5f9; padding:1px 5px; border-radius:4px; font-size:0.82re
       <tr><td>三年目标份额</td><td class="num">{_pct(ass['target_share_y3'])}</td></tr>
     </tbody>
   </table>
-  <div class="note">每一层都在 <code>config/case.toml</code>，改渗透率或份额即可重算——商赛里「假设可审计」比拍一个总数更重要。</div>
+  <div class="note">每一层都在 <code>config/case.toml</code>，改渗透率或份额即可重算——「假设可审计」比拍一个总数更重要。</div>
 
   <h2>2. 竞品雷达 · 今日告警</h2>
   <table>
@@ -164,7 +220,7 @@ code {{ background:#f1f5f9; padding:1px 5px; border-radius:4px; font-size:0.82re
     <thead><tr><th>情景</th><th class="num">SOM</th><th class="num">三年份额</th><th class="num">AOV</th><th class="num">毛利</th><th class="num">CAC</th><th class="num">贡献</th><th class="num">回本月</th><th>健康</th></tr></thead>
     <tbody>{sc_rows}</tbody>
   </table>
-  <div class="note">悲观若回本失败：优先收缩可服务地理与补贴，而不是加码获客——这是商赛里常见的「纪律」答法。</div>
+  <div class="note">悲观若回本失败：优先收缩可服务地理与补贴，而不是加码获客。</div>
 
   <h2>5. 波特五力 · 苏州社区零售</h2>
   <p class="muted">{escape(porter['narrative'])}</p>
@@ -172,7 +228,7 @@ code {{ background:#f1f5f9; padding:1px 5px; border-radius:4px; font-size:0.82re
     <thead><tr><th>力</th><th class="num">强度</th><th>刻度</th><th>驱动因素</th><th>对我方含义</th></tr></thead>
     <tbody>{porter_rows}</tbody>
   </table>
-  <div class="note">五力分数在 <code>[porter.*]</code>；改强度与驱动因素后重跑报告，便于评委追问「行业结构」时有据可答。</div>
+  <div class="note">五力在 <code>[porter.*]</code>；对应策划书「现状分析 / 竞争结构」，驱动因素写清才能辩护强度分。</div>
 
   <h2>6. 商业监控 · KPI 看板与事件流</h2>
   <p class="muted">{escape(monitor['narrative'])}</p>
@@ -185,9 +241,9 @@ code {{ background:#f1f5f9; padding:1px 5px; border-radius:4px; font-size:0.82re
     <thead><tr><th>指标</th><th class="num">实际</th><th class="num">目标</th><th class="num">周变化</th><th>状态</th><th>节奏</th><th>负责人</th><th>纠偏动作</th></tr></thead>
     <tbody>{mon_rows}</tbody>
   </table>
-  <h3 style="font-size:0.95rem;margin:16px 0 8px">事件流（竞品告警 ∪ KPI 灯）</h3>
+  <h3>事件流（竞品告警 ∪ KPI 灯）</h3>
   {mon_events}
-  <div class="note">监控节奏写在 <code>[monitor]</code>：日度价格巡检 · 周度份额/UE 复盘 · 红灯当日给动作。份额/价格/NPS/CAC 等从竞品与单位经济实时回填。</div>
+  <div class="note">监控节奏在 <code>[monitor]</code>：日度价格巡检 · 周度份额/UE 复盘 · 红灯当日给动作。</div>
 
   <p class="muted" style="margin-top:28px">本地：<code>python3 run.py</code> · 测试：<code>python3 -m unittest discover -s tests -v</code></p>
 </div>

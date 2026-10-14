@@ -7,6 +7,7 @@ from bizcase.unit_econ import unit_economics
 from bizcase.scenario import run_scenarios
 from bizcase.porter import porter_forces
 from bizcase.monitor import monitor_board
+from bizcase.competition import competition_brief
 
 
 class TestBizCase(unittest.TestCase):
@@ -48,6 +49,15 @@ class TestBizCase(unittest.TestCase):
         down = next(s for s in sc if s["key"] == "downside")
         up = next(s for s in sc if s["key"] == "upside")
         self.assertGreater(up["som"], down["som"])
+
+    def test_competition_brief(self):
+        b = competition_brief(self.cfg)
+        self.assertIn("商业精英", b["series"])
+        self.assertGreaterEqual(len(b["stages"]), 4)
+        self.assertGreaterEqual(len(b["plan_mapping"]), 3)
+        self.assertGreaterEqual(len(b["contributions"]), 3)
+        self.assertIn("三等奖", b["award"])
+        self.assertIn("宋锦", b["real_case"])
 
     def test_porter_five_forces(self):
         p = porter_forces(self.cfg)
