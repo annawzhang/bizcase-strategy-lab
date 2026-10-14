@@ -1,0 +1,105 @@
+# 虚构商赛案例：苏州零售消费品类 · 社区优选新品牌「苏里优选」
+# 所有数字均为演示假设，不代表真实市场统计。
+
+[meta]
+title = "苏里优选 · 苏州社区零售扩张案"
+city = "苏州"
+category = "社区零售 / 生鲜日用"
+brand = "苏里优选"
+year = 2026
+disclaimer = "虚构案例，用于商赛方法工具化演示"
+
+# ---------- 1. 市场测算假设 ----------
+[market]
+# 苏州常住人口（演示用数量级）
+population = 12_900_000
+# 家庭户规模
+household_size = 2.6
+# 家庭食品日用月支出（元）
+monthly_spend_per_hh = 1800
+# 可线上/社区店渗透的品类占比
+addressable_share = 0.35
+# 社区优选赛道占可触达支出比例
+segment_share = 0.12
+# 我方可服务区域（古城区+工业园区+高新区核心）人口占比
+serviceable_geo = 0.28
+# 三年目标份额（SOM）
+target_share_y3 = 0.08
+# 年化消费月数
+months = 12
+
+# ---------- 2. 竞品快照（虚构） ----------
+[[competitors]]
+name = "邻里优选"
+price_index = 100
+sku = 3200
+nps = 42
+share = 0.22
+promo_intensity = 0.35
+note = "老牌社区团购转型"
+
+[[competitors]]
+name = "城南大卖场"
+price_index = 92
+sku = 8000
+nps = 28
+share = 0.31
+promo_intensity = 0.22
+note = "大店低价，履约慢"
+
+[[competitors]]
+name = "湖畔便利联盟"
+price_index = 108
+sku = 1500
+nps = 51
+share = 0.11
+promo_intensity = 0.18
+note = "便利店加盟，密度高"
+
+[[competitors]]
+name = "苏里优选"
+price_index = 103
+sku = 2100
+nps = 47
+share = 0.04
+promo_intensity = 0.28
+note = "本品牌 · 新鲜度与私域"
+
+# 告警规则阈值
+[compete_rules]
+price_undercut_vs_us = 8          # 竞品价格指数低于我方超过该点 → 跟价预警
+nps_lead_vs_us = 8               # 竞品 NPS 高于我方超过该点 → 体验差距
+share_floor = 0.05              # 我方份额低于该值 → 份额告警
+promo_spike = 0.30              # 促销强度高于该值 → 促销战告警
+
+# ---------- 3. 单位经济（单均订单） ----------
+[unit]
+aov = 68.0                      # 客单价
+gross_margin = 0.28             # 毛利率
+cac = 22.0                      # 获客成本（首单归因）
+fulfill_cost = 9.5              # 履约/包装
+take_rate_other = 0.03          # 支付与损耗等
+orders_per_month = 3.2          # 月复购次数（成熟用户）
+months_to_payback_cap = 18
+
+# ---------- 4. 情景推演 ----------
+[scenarios.base]
+label = "基准"
+demand_mult = 1.0
+cac_mult = 1.0
+margin_delta = 0.0
+share_y3 = 0.08
+
+[scenarios.upside]
+label = "乐观"
+demand_mult = 1.25
+cac_mult = 0.85
+margin_delta = 0.02
+share_y3 = 0.12
+
+[scenarios.downside]
+label = "悲观"
+demand_mult = 0.75
+cac_mult = 1.25
+margin_delta = -0.03
+share_y3 = 0.04
